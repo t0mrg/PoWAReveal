@@ -1,10 +1,10 @@
 # PoWAReveal
 
-[![Open PoWAReveal](https://img.shields.io/badge/Open_PoWAReveal-Launch_web_app-087F8C?style=for-the-badge)](https://t0mrg.github.io/PoWAReveal/)
+[![Open PoWAReveal](https://img.shields.io/badge/Open_PoWAReveal-Launch_web_app-087F8C?style=for-the-badge)](https://github.biocompute.org.uk/PoWAReveal/)
 
 An offline-first browser editor for [SwiftReveal](https://github.com/t0mrg/swiftreveal) presentations, with a local presentation library, native-inspired three-pane editor, and GitHub Pages hosting.
 
-Use [PoWAReveal in your browser](https://t0mrg.github.io/PoWAReveal/), or install [SwiftReveal, the native macOS companion](https://github.com/t0mrg/swiftreveal#install). Both tools open `.swiftreveal` presentations; downloaded PoWAReveal files can be edited in SwiftReveal.
+Use [PoWAReveal in your browser](https://github.biocompute.org.uk/PoWAReveal/), or install [SwiftReveal, the native macOS companion](https://github.com/t0mrg/swiftreveal#install). Both tools open `.swiftreveal` presentations; downloaded PoWAReveal files can be edited in SwiftReveal.
 
 **Presentations are stored in this browser on this device. Download an editable copy for permanent use.** Clearing site data, private browsing, browser eviction, or changing origins can make a browser library unavailable. Persistent storage permission reduces eviction risk but is not a backup. The editor keeps this guidance visible and distinguishes autosaved edits from a download request.
 
@@ -73,7 +73,7 @@ If browser storage fails or fills, edits remain open and Download stays availabl
 
 ## GitHub Pages
 
-The public application is hosted at **[https://t0mrg.github.io/PoWAReveal/](https://t0mrg.github.io/PoWAReveal/)**. No installation or account is required. After the first complete load, the app can work offline.
+The public application is hosted at **[https://github.biocompute.org.uk/PoWAReveal/](https://github.biocompute.org.uk/PoWAReveal/)**. This uses the account’s existing GitHub Pages custom domain; the `t0mrg.github.io` address redirects here. No installation or account is required. After the first complete load, the app can work offline.
 
 The [Pages workflow](.github/workflows/pages.yml) runs the tests, builds the app, and deploys `dist/` on pushes to `main`. It can also be run manually from GitHub Actions. Repository Pages settings use **GitHub Actions** as the publishing source. Relative asset, manifest, and service-worker URLs support the `/PoWAReveal/` project path.
 
