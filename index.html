@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#087f8c">
+  <meta name="description" content="Create, edit and present SwiftReveal slides offline. Your presentations stay in your browser.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./app.css">
+  <title>PoWAReveal</title>
+</head>
+<body>
+  <header class="app-toolbar">
+    <a class="brand" href="./" aria-label="PoWAReveal home"><span class="brand-mark">P</span><span>PoWA<span class="brand-light">Reveal</span></span></a>
+    <div class="toolbar-group"><button data-action="library">Library</button><button data-action="new">New</button><button data-action="open">Open…</button></div>
+    <div class="document-heading"><strong id="document-title">Untitled presentation</strong><span id="save-status" role="status" aria-live="polite">Opening browser storage…</span></div>
+    <div class="toolbar-group"><button data-action="undo" title="Undo (⌘/Ctrl Z)" aria-label="Undo">↶</button><button data-action="redo" title="Redo (⌘/Ctrl Shift Z)" aria-label="Redo">↷</button><button data-action="settings">Deck settings</button><button data-action="themes">CSS & themes</button><button data-action="optimize">Optimize</button></div>
+    <div class="toolbar-group primary-actions"><button data-action="exports">Export ▾</button><button class="primary" data-action="download" title="Download an editable .swiftreveal file">↓ Download copy</button><button class="present" data-action="present">▶ Present</button></div>
+  </header>
+  <aside class="storage-banner" id="storage-banner"><span><strong>Stored in this browser.</strong> Download a copy for permanent use. Clearing browser data can remove your presentations.</span><button data-action="persist" class="quiet" id="persist-button">Request persistent storage</button></aside>
+  <div class="workspace">
+    <aside class="navigator" aria-label="Slide navigator"><div class="pane-heading"><span>SLIDES <span id="slide-count"></span></span><button data-action="add-slide" aria-label="Add slide" title="Add slide">＋</button></div><div class="slides-list" id="slides-list" tabindex="0" aria-label="Slides. Use command or control click for multiple selection."></div><div class="navigator-actions"><button data-action="copy-slides">Copy</button><button data-action="paste-slides">Paste above</button><button data-action="duplicate-slide" aria-label="Duplicate slide">⧉</button><button data-action="delete-slide" aria-label="Delete selected slides">−</button></div><div class="navigator-bottom"><button data-action="add-slide">＋ Add slide</button><button data-action="move-slide-up" aria-label="Move slide up">↑</button><button data-action="move-slide-down" aria-label="Move slide down">↓</button></div></aside>
+    <main class="canvas-pane"><div class="canvas-tools"><span id="slide-position">Slide 1</span><span id="canvas-ratio">16:9</span><span class="offline-state" id="offline-state">Preparing offline use…</span></div><div class="canvas-space"><div id="canvas-frame"><iframe id="preview" title="Live slide preview" sandbox="allow-scripts"></iframe></div></div><div id="layout-warnings" role="status" class="layout-warnings"></div><section class="notes-panel"><label for="notes">SPEAKER NOTES</label><textarea id="notes" data-scope="slide" data-field="notes" placeholder="Notes for this slide. Press N in presentation mode to show them."></textarea></section><footer class="canvas-footer"><span id="backup-status">No copy downloaded yet</span><button data-action="help" class="quiet">Keyboard shortcuts & help</button></footer></main>
+    <aside class="inspector" id="inspector" aria-label="Slide inspector"></aside>
+  </div>
+  <input id="file-input" type="file" accept=".swiftreveal,.json" multiple hidden>
+  <input id="image-input" type="file" accept="image/*,.svg" hidden>
+  <input id="theme-input" type="file" accept=".json,.swiftrevealtheme" hidden>
+  <dialog id="dialog"><div id="dialog-content"></div></dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <div id="update-banner" class="update-banner" hidden><span>An update is ready. Your browser-saved slides will be retained.</span><button data-action="activate-update">Update now</button><button data-action="dismiss-update">Later</button></div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
