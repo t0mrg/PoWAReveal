@@ -20,6 +20,8 @@ Exported HTML embeds the renderer, reveal.js, diagrams, styles and image data. I
 
 **Download PDF** is a direct, server-free export. Each slide is captured at twice its logical resolution and occupies exactly one page, in the selected 16:9 or 6:4 ratio. The result is a high-resolution **raster PDF**: text is not selectable and SVG artwork is rasterized. Large presentations need more browser memory. Export stops visibly when a slide cannot render or an image/diagram is invalid; it does not deliberately save partial output.
 
+Background images and their translucent overlays are composited directly on a canvas before the transparent text/content capture is added. This preserves Fit/Fill placement and overlay opacity without routing the background image through SVG foreignObject rasterization. Slides without image backgrounds retain the existing capture path.
+
 **Print / Save as PDF** uses the browser's vector-capable print renderer. Only slides enter the print document, each on a separate page with a CSS page size matching the presentation. In the print dialog choose **Save as PDF**, **scale 100%**, **margins none**, disable **headers and footers**, and enable **background graphics**. Confirm that the browser honours the slide-size page setting; some browsers/printer drivers override custom paper sizes. This path is also the fallback if canvas capture is unsupported or memory-constrained.
 
 A requested download cannot establish that the browser saved the file or that the user kept it. Browser-local save state and downloaded-copy state must remain separate in the editor.

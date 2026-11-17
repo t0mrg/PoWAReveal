@@ -40,3 +40,7 @@ Use a normal browser profile and the same localhost origin throughout each persi
 - Restart server with a new build. Existing app should show an update notice; activation should preserve autosaved presentations.
 - Repeat basic launch/import/export at `http://localhost:4174/PoWAReveal/` using the subpath command in README.
 - Verify desktop Chrome, Edge, Firefox and Safari; check tablet widths, keyboard focus, readable labels and dialog scrolling.
+
+## PDF background compositing regression
+
+Run `npm run test:pdf-browser`, then open `http://localhost:4180/` in Safari. Choose **Run pixel checks**; expect 52 passing cases. Export both PDF fixtures and inspect their backgrounds and foreground content. Stop the local harness with Ctrl+C. See [PDF_BACKGROUND_FIX.md](PDF_BACKGROUND_FIX.md) for coverage and results.

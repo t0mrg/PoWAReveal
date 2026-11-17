@@ -1,4 +1,4 @@
-import { toPng } from 'html-to-image';
+import { captureSlidePNG } from './pdf-capture.js';
 import { jsPDF } from 'jspdf';
 import { renderDocument, slideSize } from './renderer.js';
 
@@ -79,7 +79,7 @@ export async function exportPDF(deck, options = {}) {
       const node = frame.contentDocument.querySelector('.sr-slide');
       if (node.querySelector('.sr-diagram-error')) throw new Error(`Slide ${index + 1} has a diagram error. Correct it before exporting.`);
       freezeSVGStyles(node, frame.contentWindow);
-      const data = await waitFor(toPng(node, { width: size.width, height: size.height, pixelRatio: 2, skipFonts: true, cacheBust: false }), 45_000, `Slide ${index + 1} could not be captured. Try Print / Save as PDF instead.`);
+      const data = await waitFor(captureSlidePNG(node, size), 45_000, `Slide ${index + 1} could not be captured. Try Print / Save as PDF instead.`);
       if (!data || data === 'data:,') throw new Error(`Slide ${index + 1} produced an empty image. Try Print / Save as PDF instead.`);
       if (index) pdf.addPage([size.width, size.height], 'landscape');
       pdf.addImage(data, 'PNG', 0, 0, size.width, size.height, undefined, 'FAST');
