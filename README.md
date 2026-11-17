@@ -2,7 +2,7 @@
 
 [![Open PoWAReveal](https://img.shields.io/badge/Open_PoWAReveal-Launch_web_app-087F8C?style=for-the-badge)](https://github.biocompute.org.uk/PoWAReveal/)
 
-An offline-first browser editor for [SwiftReveal](https://github.com/t0mrg/swiftreveal) presentations, with a local presentation library, native-inspired three-pane editor, and GitHub Pages hosting.
+An offline-first browser editor for [SwiftReveal](https://github.com/t0mrg/swiftreveal) presentations, with a local presentation library, native-inspired three-pane editor, and GitHub Pages hosting. **Fully "vibe" coded by coding agents.**
 
 Use [PoWAReveal in your browser](https://github.biocompute.org.uk/PoWAReveal/), or install [SwiftReveal, the native macOS companion](https://github.com/t0mrg/swiftreveal#install). Both tools open `.swiftreveal` presentations; downloaded PoWAReveal files can be edited in SwiftReveal.
 
