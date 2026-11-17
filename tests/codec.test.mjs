@@ -93,3 +93,11 @@ test('LZFSE never allocates output beyond the authenticated declared size',()=>{
   assert.throws(()=>decodeLzfse(bomb,16),/declared/);
   assert.throws(()=>decodeLzfse(new Uint8Array(),0),/limit/);
 });
+
+
+test('native Apple LZVN and multi-block LZFSE fixtures decode without truncation',async()=>{
+  const small=await decodePresentation(await file('native-small.swiftreveal'));
+  assert.equal(small.slides[0].blocks[0].body,'A short repeated sentence. '.repeat(80));
+  const large=await decodePresentation(await file('native-multiblock.swiftreveal'));
+  assert.equal(large.slides[0].blocks[0].body,'Unicode αβ and repeated text.\n'.repeat(100000));
+});

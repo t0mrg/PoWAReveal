@@ -9,6 +9,7 @@ export async function buildProject() {
   await mkdir(out,{recursive:true});
   await cp(path.join(root,'public'),out,{recursive:true});
   await cp(path.join(root,'index.html'),path.join(out,'index.html'));
+  for(const name of ['LICENSE','THIRD_PARTY_NOTICES.md'])await cp(path.join(root,name),path.join(out,name));
   await cp(path.join(root,'src/app.css'),path.join(out,'app.css'));
   await build({entryPoints:[path.join(root,'src/app.js')],outfile:path.join(out,'app.js'),bundle:true,format:'esm',platform:'browser',target:['chrome110','edge110','firefox115','safari16.4'],minify:true,legalComments:'eof',define:{'process.env.NODE_ENV':'"production"'},logLevel:'warning'});
   // New cache identity depends on every shell resource, including decoder WASM.

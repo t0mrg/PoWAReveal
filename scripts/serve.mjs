@@ -9,7 +9,7 @@ const portArg=process.argv.indexOf('--port');
 const port=portArg<0?4173:Number(process.argv[portArg+1]);
 const baseArg=process.argv.indexOf('--base');
 const base=baseArg<0?'/':`/${process.argv[baseArg+1].replace(/^\/+|\/+$/g,'')}/`;
-const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json','.webmanifest':'application/manifest+json','.svg':'image/svg+xml','.png':'image/png','.wasm':'application/wasm','.swiftreveal':'application/octet-stream'};
+const types={'.md':'text/plain; charset=utf-8','.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json','.webmanifest':'application/manifest+json','.svg':'image/svg+xml','.png':'image/png','.wasm':'application/wasm','.swiftreveal':'application/octet-stream'};
 const server=http.createServer(async(req,res)=>{
   try {
     const url=new URL(req.url,'http://localhost');
