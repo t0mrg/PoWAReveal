@@ -2,7 +2,7 @@
 
 ## Tested build
 
-Date: 17 November 2026. Local repository, no configured remote, no GitHub publication or deployment. Stage commits use `GPT-6_Codex` as author/committer. The sibling SwiftReveal repository was used as a read-only implementation reference and native compatibility oracle.
+Initial local validation: 17 November 2026, before GitHub publication. Public GitHub repository and Pages deployment were subsequently authorized by the user. Stage commits use `GPT-6_Codex` as author/committer. The sibling SwiftReveal repository was used as a read-only implementation reference and native compatibility oracle.
 
 ## Automated checks
 

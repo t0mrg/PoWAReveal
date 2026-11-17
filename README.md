@@ -1,6 +1,10 @@
 # PoWAReveal
 
-An offline-first browser editor for SwiftReveal presentations, with a local presentation library, native-inspired three-pane editor, and static GitHub Pages deployment support.
+[![Open PoWAReveal](https://img.shields.io/badge/Open_PoWAReveal-Launch_web_app-087F8C?style=for-the-badge)](https://t0mrg.github.io/PoWAReveal/)
+
+An offline-first browser editor for [SwiftReveal](https://github.com/t0mrg/swiftreveal) presentations, with a local presentation library, native-inspired three-pane editor, and GitHub Pages hosting.
+
+Use [PoWAReveal in your browser](https://t0mrg.github.io/PoWAReveal/), or install [SwiftReveal, the native macOS companion](https://github.com/t0mrg/swiftreveal#install). Both tools open `.swiftreveal` presentations; downloaded PoWAReveal files can be edited in SwiftReveal.
 
 **Presentations are stored in this browser on this device. Download an editable copy for permanent use.** Clearing site data, private browsing, browser eviction, or changing origins can make a browser library unavailable. Persistent storage permission reduces eviction risk but is not a backup. The editor keeps this guidance visible and distinguishes autosaved edits from a download request.
 
@@ -67,11 +71,13 @@ Downloads include the document's notes and embedded assets. A browser download r
 
 If browser storage fails or fills, edits remain open and Download stays available. Switching documents is blocked until the current revision has a download request or a successful browser save. Concurrent edits to the same presentation in different tabs are detected at save time; keep a downloaded copy of conflicting edits before reopening the latest saved version with **Library → Reload saved**.
 
-## GitHub Pages (after local testing)
+## GitHub Pages
 
-This checkout has **no remote and has not been deployed**. The `.github/workflows/pages.yml` workflow is manual-only, so creating a GitHub repository or pushing source does not deploy it automatically.
+The public application is hosted at **[https://t0mrg.github.io/PoWAReveal/](https://t0mrg.github.io/PoWAReveal/)**. No installation or account is required. After the first complete load, the app can work offline.
 
-When publication is authorized, push this repository to the intended GitHub repository, select **Settings → Pages → Source: GitHub Actions**, then run **Build and deploy Pages (manual)**. The build uploads only `dist/`. Relative manifest, service-worker and asset URLs support a project path such as `/PoWAReveal/`; no server routes or secrets are required.
+The [Pages workflow](.github/workflows/pages.yml) runs the tests, builds the app, and deploys `dist/` on pushes to `main`. It can also be run manually from GitHub Actions. Repository Pages settings use **GitHub Actions** as the publishing source. Relative asset, manifest, and service-worker URLs support the `/PoWAReveal/` project path.
+
+The hosted site and localhost have separate browser libraries. To move a presentation between them, download an editable `.swiftreveal` copy and open it at the other address. Publishing the app does not upload your browser-stored presentations.
 
 ## Development and validation
 
@@ -89,3 +95,7 @@ The editable schema remains SwiftReveal version 1. Downloads intentionally use i
 Browser quotas and available memory vary. TIFF/PDF/HEIC image decoding is not universally available; convert unsupported figure files to PNG/JPEG/SVG before import. AppKit-specific menus, native filesystem autosave, Finder integration and OS document windows are replaced by browser controls, a browser library and downloadable files. Direct PDF is raster; print is the vector alternative. Custom CSS, scripts and resource-bearing HTML do not receive access to the editor: slide previews use sandboxed documents, allowlisted markup and a resource-restricting CSP.
 
 No analytics, accounts, collaboration server, or network requests for user presentations are included. Dependencies and third-party licences are retained in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and `src/vendor/`.
+
+## License
+
+PoWAReveal is available under the [MIT License](LICENSE). SwiftReveal attribution and bundled third-party licences are retained.

@@ -2,7 +2,7 @@
 
 ## Agreed scope
 
-Local Git repository only; no GitHub repository, push, publication, or Pages activation until user testing. Static offline-first PWA for desktop Chrome, Edge, Firefox, and Safari, with a usable tablet layout. Match SwiftReveal 0.9.1's visual presentation and editing functions wherever browser APIs permit. No accounts, server, telemetry, remote fonts, or runtime CDN dependencies. Attribute stage commits to the implementing agent model (GPT-6_Codex).
+The initial scope kept the Git repository local until user testing. On 17 November 2026 the user authorized a public MIT-licensed GitHub repository and GitHub Pages deployment, with cross-links to SwiftReveal. Static offline-first PWA for desktop Chrome, Edge, Firefox, and Safari, with a usable tablet layout. Match SwiftReveal 0.9.1's visual presentation and editing functions wherever browser APIs permit. No accounts, server, telemetry, remote fonts, or runtime CDN dependencies. Attribute stage commits to the implementing agent model (GPT-6_Codex).
 
 ## Stage 1 — foundation and contracts
 

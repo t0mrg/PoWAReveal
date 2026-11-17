@@ -3,3 +3,5 @@
 @media(max-width:1000px){.navigator-bottom{flex-wrap:wrap}.navigator-bottom button:first-child{flex-basis:100%}}
 
 .field textarea.title-text{min-height:56px;height:56px}
+
+.canvas-footer{flex-wrap:wrap;gap:8px}.live-app-button{display:inline-block;padding:5px 9px;border:1px solid #b7ced1;border-radius:6px;background:#f5fbfb;color:#086773;text-decoration:none;white-space:nowrap;font-size:11px}.live-app-button:hover{background:#e0f0f1}.live-app-button:focus-visible{outline:3px solid #55c6d1;outline-offset:2px}
