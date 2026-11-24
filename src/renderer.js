@@ -6,6 +6,7 @@ import revealJS from './vendor/revealJS.js';
 import revealCSS from './vendor/revealCSS.js';
 import mermaidJS from './vendor/mermaidJS.js';
 import vendorLicences from './vendor/licences.js';
+import powerPointRuntime from './vendor/powerPointRuntime.js';
 
 const basePalette={surface:'#FCFCFB',ink:'#171B22',secondary:'#555E6A',muted:'#858C96',rule:'#DFE3E9',tint:'#F0F3F7'};
 export const palettes={
@@ -20,6 +21,7 @@ export const palettes={
  monochrome:{surface:'#FFFFFF',ink:'#151515',secondary:'#444444',muted:'#727272',rule:'#D7D7D7',tint:'#F0F0F0',accent:'#444444',deep:'#252525',wash:'#EAEAEA',cover:'#111111',cover2:'#555555'}
 };
 export function slideSize(deck){return deck?.aspectRatio==='sixByFour'?{width:1296,height:864}:{width:1280,height:720};}
+export function themePalette(deck){return {...basePalette,...(palettes[deck.theme]??palettes.azure)};}
 const finite=(value,fallback)=>Number.isFinite(value)?value:fallback;
 const factor=value=>Math.min(4,Math.max(.25,finite(value,1)));
 const colour=value=>typeof value==='string'&&/^#[a-fA-F0-9]{6}$/.test(value)?value.toUpperCase():null;
@@ -97,7 +99,7 @@ function scriptTag(source,nonce){return '<script nonce="'+nonce+'">'+source.repl
 function nonce(){const bytes=new Uint8Array(18);crypto.getRandomValues(bytes);return Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('');}
 /** Pure synchronous HTML generation; window.swiftRevealReady resolves fonts, diagrams and final layout. */
 export function renderDocument(deck,{mode='preview',slideIndex=0,selectedBlockId}={}){
- if(!['preview','presentation','capture','print'].includes(mode))throw new Error('Unknown rendering mode.');
+ if(!['preview','presentation','capture','print','powerpoint'].includes(mode))throw new Error('Unknown rendering mode.');
  const size=slideSize(deck),index=Math.max(0,Math.min(deck.slides.length-1,slideIndex));
  const isPresentation=mode==='presentation',all=isPresentation||mode==='print';
  const indices=all?deck.slides.map((_,i)=>i):[index];
@@ -118,5 +120,5 @@ export function renderDocument(deck,{mode='preview',slideIndex=0,selectedBlockId
  const runtime=renderRuntime.replace('__DIAGRAM_RUNTIME__',hasDiagrams?diagramRuntime:'window.swiftRevealDiagramsReady=Promise.resolve([]);').replace('__STARTUP__',startup).replaceAll('__INDEX__',index);
  const n=nonce();
  const policy=`default-src 'none'; script-src 'nonce-${n}'; style-src 'unsafe-inline'; img-src data:; font-src data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'`;
- return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="${policy}"><meta name="generator" content="PoWAReveal 0.1.0"><meta name="author" content="${escapeHTML(deck.author)}"><title>${escapeHTML(deck.title)}</title><!-- SwiftReveal renderer port. Bundled dependency licences:\n${vendorLicences.replaceAll('--','- -')}\n--><style>${isPresentation?revealCSS:''}\n${theme}\n${css}\n${mode==='print'?printCSS:''}\n${safeCSS(deck.customCSS)}</style></head><body class="sr-${mode} theme-${escapeHTML(safeToken(deck.theme)||'azure')}">${wrap}${isPresentation?scriptTag(revealJS,n):''}${hasDiagrams?scriptTag(mermaidJS,n):''}${scriptTag(runtime,n)}</body></html>`;
+ return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="${policy}"><meta name="generator" content="PoWAReveal 0.2.0"><meta name="author" content="${escapeHTML(deck.author)}"><title>${escapeHTML(deck.title)}</title><!-- SwiftReveal renderer port. Bundled dependency licences:\n${vendorLicences.replaceAll('--','- -')}\n--><style>${isPresentation?revealCSS:''}\n${theme}\n${css}\n${mode==='print'?printCSS:''}\n${mode==='powerpoint'?'html,body{font-family:Arial,sans-serif}':''}\n${safeCSS(deck.customCSS)}</style></head><body class="sr-${mode==='powerpoint'?'capture sr-powerpoint':mode} theme-${escapeHTML(safeToken(deck.theme)||'azure')}">${wrap}${isPresentation?scriptTag(revealJS,n):''}${hasDiagrams?scriptTag(mermaidJS,n):''}${scriptTag(runtime,n)}${mode==='powerpoint'?scriptTag(powerPointRuntime,n):''}</body></html>`;
 }

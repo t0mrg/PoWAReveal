@@ -2397,3 +2397,7 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
+
+## PowerPoint export
+
+The offline export runtime is ported from SwiftReveal (MIT) and bundles PptxGenJS 4.0.0 (MIT), JSZip 3.10.1 (MIT option), and their browser dependencies. Full dependency licences ship in `public/vendor/powerpoint-LICENSES.txt` and are included in the offline application cache. Source is in `src/powerpoint/runtime.js`; `scripts/build-powerpoint.mjs` rebuilds the trusted frame runtime with pinned dependencies. No server, Office installation, or CDN is required.
