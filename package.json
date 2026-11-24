@@ -1,6 +1,6 @@
 {
   "name": "powareveal",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,7 +8,8 @@
     "build": "node scripts/build.mjs",
     "preview": "node scripts/serve.mjs --dist",
     "test": "node --test tests/*.test.mjs",
-    "test:pdf-browser": "node scripts/qa-pdf-backgrounds.mjs"
+    "test:pdf-browser": "node scripts/qa-pdf-backgrounds.mjs",
+    "build:powerpoint": "node scripts/build-powerpoint.mjs"
   },
   "engines": {
     "node": ">=22"
@@ -17,11 +18,16 @@
     "dompurify": "3.4.18",
     "highlight.js": "11.11.1",
     "html-to-image": "1.11.13",
-    "jspdf": "4.2.1"
+    "jspdf": "4.2.1",
+    "jszip": "3.10.1",
+    "pptxgenjs": "4.0.0"
   },
   "devDependencies": {
     "esbuild": "0.25.12",
     "fake-indexeddb": "^6.2.8"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "overrides": {
+    "image-size": "2.1.0"
+  }
 }

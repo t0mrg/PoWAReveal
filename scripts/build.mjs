@@ -3,8 +3,10 @@ import { readFile, writeFile, mkdir, cp, readdir, stat } from 'node:fs/promises'
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import {buildPowerPointRuntime} from './build-powerpoint.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 export async function buildProject() {
+  await buildPowerPointRuntime();
   const out=path.join(root,'dist');
   await mkdir(out,{recursive:true});
   await cp(path.join(root,'public'),out,{recursive:true});

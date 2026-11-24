@@ -24,12 +24,12 @@ export function exportHTML(deck) {
   return downloadFile(html, `${safeFilename(deck.title)}.html`, 'text/html;charset=utf-8');
 }
 
-function waitFor(promise, milliseconds, message) {
+export function waitFor(promise, milliseconds, message) {
   let timer;
   return Promise.race([promise, new Promise((_, reject) => { timer = setTimeout(() => reject(new Error(message)), milliseconds); })]).finally(() => clearTimeout(timer));
 }
 
-async function renderFrame(html, size) {
+export async function renderFrame(html, size) {
   const frame = document.createElement('iframe');
   frame.title = 'Presentation export renderer';
   // This frame contains only renderer-sanitized markup. Its nonce-based CSP denies authored scripts.
