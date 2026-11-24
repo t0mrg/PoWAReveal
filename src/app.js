@@ -3,7 +3,8 @@ import { decodePresentation, encodePresentation } from './codec.js';
 import { renderDocument, slideSize } from './renderer.js';
 import * as storage from './storage.js';
 import { importImage, optimizeDeck } from './media.js';
-import { downloadFile, exportHTML, exportPDF, printDeck } from './export.js';
+import { downloadFile, exportHTML, exportPDF, printDeck, safeFilename } from './export.js';
+import { exportPowerPoint } from './powerpoint.js';
 
 const $ = selector => document.querySelector(selector);
 const escape = value => String(value ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -178,7 +179,7 @@ async function showLibrary() {
   documents.sort((a,b)=>b.updatedAt-a.updatedAt);
   modal('Your browser library',`<div class="warning-box"><strong>This library lives in this browser on this device.</strong> It does not sync or replace a downloaded file. Private browsing, clearing site data, or browser eviction can remove it.</div><div class="section-title">BUNDLED EXAMPLES</div><div class="row-actions"><button data-action="open-example" data-name="Getting-Started">Getting started</button><button data-action="open-example" data-name="Diagrams-and-Code">Diagrams & code</button><button data-action="open-example" data-name="SVG-Images">SVG</button></div><div class="section-title">YOUR PRESENTATIONS</div>${documents.map(r=>`<div class="library-row"><div><strong>${escape(r.deck.title || 'Untitled presentation')}</strong><small>${r.deck.slides.length} slides · ${new Date(r.updatedAt).toLocaleString()}${r.downloadedRevision!==r.revision?' · Download needed':''}</small></div><button data-action="open-library" data-id="${r.id}">${r.id===record.id?'Reload saved':'Open'}</button><button data-action="delete-library" data-id="${r.id}" aria-label="Delete presentation" class="danger">Delete</button></div>`).join('') || '<p>No stored presentations yet.</p>'}`,`<button data-action="open">Import presentation…</button><button data-action="new">New presentation</button><button data-action="new-window">New window</button><button data-action="close-dialog">Done</button>`);
 }
-function showExports() { modal('Export presentation',`<button class="export-option" data-action="download"><strong>Editable SwiftReveal file (.swiftreveal)</strong><small>Keep a permanent copy. Reopens in SwiftReveal or PoWAReveal, with embedded images and notes.</small></button><button class="export-option" data-action="export-html"><strong>Offline HTML presentation</strong><small>Self-contained presentation with bundled diagrams and navigation. Works without this app.</small></button><button class="export-option" data-action="export-pdf"><strong>Download PDF</strong><small>Direct browser-side export. High-resolution raster slides, one slide per page; text is not selectable.</small></button><button class="export-option" data-action="print"><strong>Print / Save as PDF</strong><small>Browser-rendered text and vectors. One slide per page. Use no margins, disable headers/footers, and enable background graphics.</small></button>`); }
+function showExports() { modal('Export presentation',`<button class="export-option" data-action="download"><strong>Editable SwiftReveal file (.swiftreveal)</strong><small>Keep a permanent copy. Reopens in SwiftReveal or PoWAReveal, with embedded images and notes.</small></button><button class="export-option" data-action="export-html"><strong>Offline HTML presentation</strong><small>Self-contained presentation with bundled diagrams and navigation. Works without this app.</small></button><button class="export-option" data-action="export-powerpoint"><strong>Editable PowerPoint (.pptx)</strong><small>Native text, shapes and tables, SVG diagrams, and eight reusable layouts. Uses Arial by default; custom CSS fonts are retained. Fonts are not embedded.</small></button><button class="export-option" data-action="export-pdf"><strong>Download PDF</strong><small>Direct browser-side export. High-resolution raster slides, one slide per page; text is not selectable.</small></button><button class="export-option" data-action="print"><strong>Print / Save as PDF</strong><small>Browser-rendered text and vectors. One slide per page. Use no margins, disable headers/footers, and enable background graphics.</small></button>`); }
 function copySlides() {
   const selected=deck.slides.filter(s=>selectedSlides.has(s.id));
   clipboard={schemaVersion:1,slides:clone(selected)};
@@ -285,6 +286,16 @@ async function perform(action,element={dataset:{}}) {
     }
     case 'export-html':await runBusy('Preparing offline HTML…',async()=>{await exportHTML(clone(deck));toast('Offline HTML download requested.');});break;
     case 'export-pdf':await runBusy('Rendering PDF slides…',async()=>{const exportedDeck=clone(deck);const blob=await exportPDF(exportedDeck,{onProgress:(index,total)=>toast(`Rendering PDF slide ${Math.min(index+1,total)} of ${total}…`)});const url=URL.createObjectURL(blob);modal('PDF ready',`<p>Your PDF contains ${exportedDeck.slides.length} slide pages. A download has been requested. If your browser blocked it, use the link below.</p><p><a class="download-result" href="${url}" download="${escape(filename('pdf'))}">Download PDF again</a></p><p class="subtle">High-resolution raster output. For selectable text, use Print / Save as PDF.</p>`);setTimeout(()=>URL.revokeObjectURL(url),600000);toast('PDF download requested. Check your Downloads folder.');});break;
+    case 'export-powerpoint':await runBusy('Preparing PowerPoint…',async()=>{
+      const exportedDeck=clone(deck);
+      const {blob,warnings}=await exportPowerPoint(exportedDeck,{onProgress:({phase,index,total})=>{
+        if(phase==='encoding')toast('Encoding PowerPoint…');
+        else if(phase!=='complete')toast(`Preparing PowerPoint ${phase==='layouts'?'layout':'slide'} ${index+1} of ${total}…`);
+      }});
+      const url=URL.createObjectURL(blob),name=safeFilename(exportedDeck.title)+'.pptx';
+      modal('PowerPoint ready',`<p>Your PowerPoint contains ${exportedDeck.slides.length} slides and eight reusable SwiftReveal layouts. A download has been requested. If your browser blocked it, use the link below.</p><p><a class="download-result" href="${url}" download="${escape(name)}">Download PowerPoint again</a></p><p class="subtle">In PowerPoint, choose Home → New Slide for SwiftReveal layouts or View → Slide Master to edit them. Fonts are not embedded; custom CSS may differ.</p>${warnings.length?`<div class="warning-box"><strong>Layout warnings</strong><ul>${warnings.map(w=>`<li>${escape(w)}</li>`).join('')}</ul></div>`:''}<div class="warning-box"><strong>Keep your editable source.</strong> Download a .swiftreveal copy for permanent use and future editing in PoWAReveal or SwiftReveal.</div><button data-action="download">Download editable .swiftreveal copy</button>`);
+      setTimeout(()=>URL.revokeObjectURL(url),600000);toast('PowerPoint download requested. Check your Downloads folder.');
+    });break;
     case 'print':await runBusy('Preparing print layout…',()=>printDeck(clone(deck)));break;
     case 'optimize':showOptimize();break;
     case 'analyze-optimize':{

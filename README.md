@@ -54,6 +54,8 @@ Keyboard shortcuts: Command/Control-S requests an editable download; Command/Con
 
 **Export** offers:
 
+- **PowerPoint `.pptx`**: editable native text, bullets, shapes and tables; SVG Mermaid pictures with PNG previews; translucent backgrounds, notes, and eight reusable Slide Master layouts. Uses Arial by default. Fonts are not embedded and advanced CSS may differ. [Details and testing](docs/POWERPOINT_EXPORT.md).
+
 - **Editable `.swiftreveal`**: portable JSON compatible with the native app, including images and speaker notes. This is the permanent editable backup.
 - **Offline HTML**: self-contained reveal.js presentation with bundled Mermaid and code highlighting. No app or internet needed.
 - **Direct PDF download**: client-side, high-resolution raster slides, one slide per page. Text is not selectable. Large decks can take time and memory; failure offers the print alternative.
