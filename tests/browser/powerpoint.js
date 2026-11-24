@@ -44,6 +44,10 @@ async function inspect(blob,ratio){
   check(picture&&content,ratio+' native picture and content placeholders');
   const slide1=await doc('ppt/slides/slide1.xml');check(slide1.getElementsByTagNameNS(a,'gradFill').length>0,ratio+' native gradient');
   check(slide1.getElementsByTagNameNS(a,'latin')[0].getAttribute('typeface')==='Arial',ratio+' portable Arial font');
+  const number=[...slide1.getElementsByTagNameNS(ns,'sp')].find(s=>[...s.getElementsByTagNameNS(a,'t')].map(n=>n.textContent).join('')==='1 / 9');
+  check(number.getElementsByTagNameNS(a,'bodyPr')[0].getAttribute('wrap')==='none',ratio+' slide number cannot wrap');
+  check(Number(number.getElementsByTagNameNS(a,'ext')[0].getAttribute('cx'))>=990600,ratio+' slide number has eight-em width');
+  check(number.getElementsByTagNameNS(a,'pPr')[0].getAttribute('algn')==='r',ratio+' slide number remains right aligned');
   const bullets=await doc('ppt/slides/slide2.xml');check(bullets.getElementsByTagNameNS(a,'buChar').length===2,ratio+' native rich-text bullets');
   const background=await doc('ppt/slides/slide3.xml'),overlay=[...background.getElementsByTagNameNS(ns,'sp')].find(s=>s.getElementsByTagNameNS(ns,'cNvPr')[0]?.getAttribute('name')==='Translucent background overlay');
   check(overlay.getElementsByTagNameNS(a,'alpha')[0].getAttribute('val')==='45000',ratio+' native 45% overlay opacity');

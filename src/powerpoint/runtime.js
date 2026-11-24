@@ -65,8 +65,15 @@ async function capture() {
     r.x+=p[3];r.y+=p[0];r.w-=p[1]+p[3];r.h-=p[0]+p[2];
     const bullet=n.tagName==='LI',font=num(s.fontSize),indent=bullet?font*1.1:0;
     r.x-=indent;r.w+=indent;
-    objects.push({kind:'text',role,rect:r,runs,options:{...textStyle(n),align:['left','center','right','justify'].includes(s.textAlign)?s.textAlign:'left',
-      lineSpacing:pt(num(s.lineHeight)||font*1.2),margin:0,paraSpaceAfter:0,paraSpaceBefore:0,valign:'top',wrap:true,
+    const slideNumber=role==='footer'&&n===root.querySelector('.sr-footer span:last-child');
+    if(slideNumber){
+      // Browser text bounds are too tight for PowerPoint's font metrics. Grow
+      // leftwards, preserving the right margin, and keep the number on one line.
+      const right=r.x+r.w,available=right-rect(n.parentElement).x;
+      r.w=Math.min(available,Math.max(r.w*1.5,font*8));r.x=right-r.w;
+    }
+    objects.push({kind:'text',role,rect:r,runs,options:{...textStyle(n),align:slideNumber?'right':['left','center','right','justify'].includes(s.textAlign)?s.textAlign:'left',
+      lineSpacing:pt(num(s.lineHeight)||font*1.2),margin:0,paraSpaceAfter:0,paraSpaceBefore:0,valign:'top',wrap:!slideNumber,
       ...(bullet?{bullet:n.parentElement.tagName==='OL'?{type:'ul',style:'arabicPeriod',numberStartAt:Array.from(n.parentElement.children).indexOf(n)+1,indent:pt(indent)}:{indent:pt(indent)},hanging:pt(indent*.65)}:{})}});
   }
   function paragraphs(n,role='body') {
